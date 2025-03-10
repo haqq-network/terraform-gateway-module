@@ -33,13 +33,13 @@ variable "gateway_class_name" {
 }
 
 variable "gateway_address_name" {
-  description = "Name of the IP address resource that will be bound to a gateway"
+  description = "Name of the IP address resource that will be bound to the gateway"
   type        = string
   default     = "gateway"
 }
 
 variable "gateway_certificates" {
-  description = "A list of certificates that will be added to the gateway"
+  description = "A list of certificates that will be mapped to the gateway"
   type = list(object({
     domain      = string
     certificate = string
