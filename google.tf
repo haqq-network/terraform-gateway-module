@@ -28,6 +28,6 @@ resource "google_certificate_manager_certificate_map_entry" "gateway" {
 
   name         = each.value.name
   map          = google_certificate_manager_certificate_map.gateway.name
-  certificates = each.value.name.id
+  certificates = [google_certificate_manager_certificate.gateway[each.key].id]
   hostname     = each.value.labels.domain
 }
