@@ -4,7 +4,7 @@ resource "google_compute_global_address" "gateway" {
 
 resource "google_certificate_manager_certificate" "gateway" {
   for_each = tomap({
-    for v in var.gateway_certificates : v.domain => v
+    for v in var.gateway_certificates : replace(replace(v.domain, "-", "_"), ".", "_") => v
   })
 
   name = each.value.domain
