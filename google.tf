@@ -4,10 +4,10 @@ resource "google_compute_global_address" "gateway" {
 
 resource "google_certificate_manager_certificate" "gateway" {
   for_each = tomap({
-    for v in var.gateway_certificates : replace(v.domain, ".", "_") => v
+    for v in var.gateway_certificates : v.domain => v
   })
 
-  name = replace(each.value.domain, ".", "-")
+  name = each.value.domain
   self_managed {
     pem_certificate = each.value.certificate
     pem_private_key = each.value.key
@@ -24,5 +24,5 @@ resource "google_certificate_manager_certificate_map_entry" "gateway" {
   name         = each.value.name
   map          = google_certificate_manager_certificate_map.gateway.name
   certificates = [google_certificate_manager_certificate.gateway[each.key].id]
-  hostname     = replace(each.value.name, "-", ".")
+  hostname     = each.value.name
 }
