@@ -1,5 +1,5 @@
-/.devenv/
-/.direnv/
-/.pre-commit-config.yaml
-/.terraform*
-/result*
+.devenv/
+.direnv/
+.pre-commit-config.yaml
+.terraform*
+result*
