@@ -57,7 +57,6 @@
       };
 
       pre-commit.settings.hooks = {
-        check-merge-conflicts.enable = true;
         convco.enable = true;
         editorconfig-checker.enable = true;
         markdownlint.enable = true;
