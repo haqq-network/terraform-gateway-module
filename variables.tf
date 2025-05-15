@@ -1,12 +1,12 @@
-variable "gke_host" {
+variable "cluster_endpoint" {
   type = string
 }
 
-variable "gke_token" {
+variable "cluster_token" {
   type = string
 }
 
-variable "gke_cluster_ca_certificate" {
+variable "cluster_ca_certificate" {
   type = string
 }
 

@@ -9,9 +9,9 @@ certificates (usually by Cloudflare).
 module "gateway" {
   source = "..."
 
-  gke_host                   = "..."
-  gke_token                  = "..."
-  gke_cluster_ca_certificate = "..."
+  cluster_endpoint       = "..."
+  cluster_token          = "..."
+  cluster_ca_certificate = "..."
   gateway_certificates = [
     {
       domain      = "alpha.example.com"

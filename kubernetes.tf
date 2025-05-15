@@ -10,9 +10,9 @@ locals {
 }
 
 provider "kubernetes" {
-  host                   = var.gke_host
-  token                  = var.gke_token
-  cluster_ca_certificate = var.gke_cluster_ca_certificate
+  host                   = var.cluster_endpoint
+  token                  = var.cluster_token
+  cluster_ca_certificate = var.cluster_ca_certificate
 }
 
 resource "kubernetes_namespace" "gateway" {
