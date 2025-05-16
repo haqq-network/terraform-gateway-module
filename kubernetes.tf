@@ -59,12 +59,6 @@ resource "kubernetes_manifest" "gateway_default" {
           }
         }
       ]
-      addresses = [
-        {
-          type  = "NamedAddress"
-          value = google_compute_global_address.this.address
-        }
-      ]
     }
   }
   field_manager {
