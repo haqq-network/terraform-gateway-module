@@ -1,32 +1,26 @@
-resource "google_compute_global_address" "gateway" {
+resource "google_compute_global_address" "this" {
   name = var.gateway_address_name
 }
 
-resource "google_certificate_manager_certificate" "gateway" {
-  for_each = tomap({
-    # Key change is required by Terraform best practices.
-    for v in var.gateway_certificates : replace(replace(v.domain, "-", "_"), ".", "_") => v
-  })
+resource "google_certificate_manager_certificate" "this" {
+  for_each = tomap({ for v in var.gateway_certificates : v.domain => v })
 
-  # Name change is required by the API specification.
-  name = replace(replace(each.value.domain, "_", "-"), ".", "-")
+  name = replace(each.value.domain, ".", "-")
   self_managed {
-    pem_certificate = each.value.certificate
-    pem_private_key = each.value.key
+    pem_certificate = each.value.pem_certificate
+    pem_private_key = each.value.pem_private_key
   }
 }
 
-resource "google_certificate_manager_certificate_map" "gateway" {
+resource "google_certificate_manager_certificate_map" "this" {
   name = "gateway"
 }
 
-resource "google_certificate_manager_certificate_map_entry" "gateway" {
-  for_each = tomap({
-    for v in var.gateway_certificates : replace(replace(v.domain, "-", "_"), ".", "_") => v
-  })
+resource "google_certificate_manager_certificate_map_entry" "this" {
+  for_each = tomap({ for v in var.gateway_certificates : v.domain => v })
 
-  name         = replace(replace(each.value.domain, "_", "-"), ".", "-")
-  map          = google_certificate_manager_certificate_map.gateway.name
-  certificates = [google_certificate_manager_certificate.gateway[each.key].id]
+  name         = replace(each.value.domain, ".", "-")
+  map          = google_certificate_manager_certificate_map.this.name
+  certificates = [google_certificate_manager_certificate.this[each.key].id]
   hostname     = each.value.domain
 }

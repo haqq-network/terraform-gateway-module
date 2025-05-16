@@ -41,8 +41,8 @@ variable "gateway_address_name" {
 variable "gateway_certificates" {
   description = "A list of certificates that will be mapped to the gateway"
   type = list(object({
-    domain      = string
-    certificate = string
-    key         = string
+    domain          = string
+    pem_certificate = string
+    pem_private_key = string
   }))
 }

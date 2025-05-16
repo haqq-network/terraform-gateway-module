@@ -15,7 +15,7 @@ provider "kubernetes" {
   cluster_ca_certificate = var.cluster_ca_certificate
 }
 
-resource "kubernetes_namespace" "gateway" {
+resource "kubernetes_namespace" "this" {
   metadata {
     name   = var.gateway_namespace
     labels = local.merged_labels
@@ -28,10 +28,10 @@ resource "kubernetes_manifest" "gateway_default" {
     kind       = "Gateway"
     metadata = {
       name      = "default"
-      namespace = kubernetes_namespace.gateway.metadata[0].name
+      namespace = kubernetes_namespace.this.metadata[0].name
       labels    = local.merged_labels
       annotations = {
-        "networking.gke.io/certmap" = google_certificate_manager_certificate_map.gateway.name
+        "networking.gke.io/certmap" = google_certificate_manager_certificate_map.this.name
       }
     }
     spec = {
@@ -59,6 +59,12 @@ resource "kubernetes_manifest" "gateway_default" {
           }
         }
       ]
+      addresses = [
+        {
+          type  = "NamedAddress"
+          value = google_compute_global_address.this.address
+        }
+      ]
     }
   }
   field_manager {
@@ -73,7 +79,7 @@ resource "kubernetes_manifest" "httproute_http_redirect" {
     kind       = "HTTPRoute"
     metadata = {
       name      = "http-redirect"
-      namespace = kubernetes_namespace.gateway.metadata[0].name
+      namespace = kubernetes_namespace.this.metadata[0].name
       labels    = local.merged_labels
     }
     spec = {
