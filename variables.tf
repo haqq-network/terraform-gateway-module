@@ -29,7 +29,7 @@ variable "gateway_class_name" {
     https://cloud.google.com/kubernetes-engine/docs/concepts/gateway-api#gatewayclass
     EOF
   type        = string
-  default     = "gke-l7-global-external-managed"
+  default     = "gke-l7-gxlb"
 }
 
 variable "gateway_address_name" {
